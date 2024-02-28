@@ -24,6 +24,14 @@ function PokedexForm({ onSubmit, initialValues, selectedPokemon }) {
 
   return (
     <form onSubmit={handleSubmit}>
+      <label htmlFor="pokemonId">Enter pokemon Id</label>
+      <input
+        type="number"
+        id="pokemonId"
+        name="pokemonId"
+        value={formValues.pokemonId}
+        onChange={handleChange}
+      />
       <label htmlFor="name">Enter pokemon name: </label>
       <input
         type="text"

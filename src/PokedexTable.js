@@ -5,6 +5,7 @@ function PokedexTable({ pokemons, onUpdateClick, onDeleteClick }) {
     <table id="table">
       <thead>
         <tr>
+          <th className="table-heading">Id</th>
           <th className="table-heading">Name</th>
           <th className="table-heading">Type</th>
           <th className="table-heading">Second Type</th>
@@ -16,12 +17,17 @@ function PokedexTable({ pokemons, onUpdateClick, onDeleteClick }) {
           .filter((p) => p !== null)
           .map((pokemon, index) => (
             <tr key={index}>
+              <td>{pokemon.pokemonId}</td>
               <td>{pokemon.name}</td>
               <td>{pokemon.type}</td>
               <td>{pokemon.secondType}</td>
               <td>
-                <button onClick={() => onUpdateClick(index)}>Update</button>
-                <button onClick={() => onDeleteClick(index)}>Delete</button>
+                <button onClick={() => onUpdateClick(pokemon.pokemonId)}>
+                  Update
+                </button>
+                <button onClick={() => onDeleteClick(pokemon.pokemonId)}>
+                  Delete
+                </button>
               </td>
             </tr>
           ))}
