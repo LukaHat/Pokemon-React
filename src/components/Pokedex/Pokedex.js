@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import PokedexTable from "./PokedexTable";
-import PokedexForm from "./PokedexForm";
-import axios from "axios";
+import PokedexTable from "../PokedexTable/PokedexTable";
+import PokedexForm from "../PokedexForm/PokedexForm";
+import API_Service from "../../services/API_Service";
 
 const Pokedex = () => {
   const [pokemons, setPokemons] = useState([]);
@@ -15,63 +15,28 @@ const Pokedex = () => {
     pageNum: 1,
   });
 
-  useEffect(() => {
-    getPokemons();
-  }, []);
-
   const getPokemons = () => {
-    if (filters == {}) {
-      axios
-        .get("https://localhost:44360/api/pokemon")
-        .then((res) => {
-          const data = res.data;
-          console.log(res.data);
-          const uniquePokemons = data.filter(
-            (pokemon, index, arr) =>
-              index === arr.findIndex((p) => p.pokemonId === pokemon.pokemonId)
-          );
-          setDbPokemons(uniquePokemons);
-        })
-        .catch((err) => console.log(err));
-    } else {
-      let queryString = "";
-
-      for (const [key, value] of Object.entries(filters)) {
-        queryString += `${key}=${value}&`;
-      }
-
-      queryString = queryString.slice(0, -1);
-
-      console.log(queryString);
-      axios
-        .get(`https://localhost:44360/api/pokemon?${queryString}`)
-        .then((res) => {
-          const data = res.data;
-          console.log(res.data);
-          const uniquePokemons = data.filter(
-            (pokemon, index, arr) =>
-              index === arr.findIndex((p) => p.pokemonId === pokemon.pokemonId)
-          );
-          setDbPokemons(uniquePokemons);
-        })
-        .catch((err) => console.log(err));
-    }
+    API_Service.getPokemons(filters)
+      .then((res) => {
+        const data = res.data;
+        console.log(res.data);
+        const uniquePokemons = data.filter(
+          (pokemon, index, arr) =>
+            index === arr.findIndex((p) => p.pokemonId === pokemon.pokemonId)
+        );
+        setDbPokemons(uniquePokemons);
+      })
+      .catch((err) => console.log(err));
   };
 
+  useEffect(() => {
+    getPokemons();
+  }, [filters]);
+
   const handleCreateSubmit = (formData) => {
-    console.log(formData);
-    axios
-      .post("https://localhost:44360/api/pokemon/", {
-        pokemonId: formData.pokemonId,
-        name: formData.name,
-        type: formData.type,
-        secondType: formData.secondType,
-      })
+    API_Service.createPokemon(formData)
       .then((response) => {
         console.log(response.data);
-        const updatedPokemons = [...pokemons, response.data];
-        localStorage.setItem("pokemons", JSON.stringify(updatedPokemons));
-        setPokemons(updatedPokemons);
         getPokemons();
       })
       .catch((error) => {
@@ -80,14 +45,8 @@ const Pokedex = () => {
   };
 
   const handleUpdateSubmit = (formData) => {
-    console.log(formData);
-    console.log(selectedPokemon.pokemonId);
     if (selectedPokemon != {}) {
-      axios
-        .put(
-          `https://localhost:44360/api/pokemon/${selectedPokemon.pokemonId}`,
-          formData
-        )
+      API_Service.updatePokemon(selectedPokemon.pokemonId, formData)
         .then((response) => {
           console.log(response.data);
           getPokemons();
@@ -99,11 +58,8 @@ const Pokedex = () => {
         });
     }
   };
-
   const handleUpdateClick = (index) => {
-    console.log(index);
-    axios
-      .get(`https://localhost:44360/api/pokemon/${index}`)
+    API_Service.getPokemonById(index)
       .then((res) => {
         const data = res.data;
         console.log(res.data);
@@ -115,9 +71,7 @@ const Pokedex = () => {
   };
 
   const handleDeleteClick = (index) => {
-    console.log(index);
-    axios
-      .delete(`https://localhost:44360/api/pokemon/${index}`)
+    API_Service.deletePokemon(index)
       .then((response) => {
         console.log(`Deleted pokemon with ID ${index}`);
         console.log(response);
@@ -127,7 +81,6 @@ const Pokedex = () => {
         console.error(error);
       });
   };
-
   const handleFilterChange = (e) => {
     console.log(filters);
     setFilters({ ...filters, [e.target.name]: e.target.value });
@@ -136,10 +89,18 @@ const Pokedex = () => {
 
   const handleFilterSubmit = (e) => {
     e.preventDefault();
-    setFilters({});
-    getPokemons();
+    API_Service.getPokemons(filters)
+      .then((res) => {
+        const data = res.data;
+        console.log(res.data);
+        const uniquePokemons = data.filter(
+          (pokemon, index, arr) =>
+            index === arr.findIndex((p) => p.pokemonId === pokemon.pokemonId)
+        );
+        setDbPokemons(uniquePokemons);
+      })
+      .catch((err) => console.log(err));
   };
-
   return (
     <div className="main-body">
       <h1 className="main-title">Pokedex</h1>

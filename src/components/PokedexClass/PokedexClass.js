@@ -1,6 +1,6 @@
 import React from "react";
-import PokedexTable from "./PokedexTable";
-import PokedexForm from "./PokedexForm";
+import PokedexTable from "../PokedexTable/PokedexTable";
+import PokedexForm from "../PokedexForm/PokedexForm";
 
 class PokedexClass extends React.Component {
   constructor(props) {
