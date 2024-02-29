@@ -8,8 +8,7 @@ import {
   RouterProvider,
   Route,
 } from "react-router-dom";
-import Pokedex from "./components/Pokedex/Pokedex";
-import { PokemonTablePage } from "./pages/PokemonTablePage";
+import { PokemonTablePage } from "./pages/PokemonTablePage/PokemonTablePage";
 import { PokemonCreatePage } from "./pages/PokemonCreatePage";
 import { HomePage } from "./pages/HomePage/HomePage";
 

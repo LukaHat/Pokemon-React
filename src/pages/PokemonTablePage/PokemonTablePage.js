@@ -1,4 +1,4 @@
-import Pokedex from "../components/Pokedex/Pokedex";
+import Pokedex from "../../components/Pokedex/Pokedex";
 
 export const PokemonTablePage = () => {
   return <Pokedex />;

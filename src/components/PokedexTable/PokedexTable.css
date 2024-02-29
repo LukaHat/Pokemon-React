@@ -1,0 +1,20 @@
+.table {
+  height: 40vh;
+  align-self: flex-start;
+  .table-headings {
+    .table-row-headings {
+      .table-heading {
+        width: 5vw;
+        font-size: 1.8rem;
+      }
+    }
+  }
+  .table-body {
+    .table-row {
+      height: 10vh;
+      .table-data {
+        font-size: 1.6rem;
+      }
+    }
+  }
+}

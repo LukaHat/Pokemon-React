@@ -16,9 +16,17 @@
   }
   .home-paragraph {
     font-size: 2rem;
+    margin-bottom: 2vh;
   }
   .home-sub-heading {
+    font-size: 2rem;
+    margin-bottom: 1vh;
   }
   .home-links {
+    list-style-type: none;
+    color: blue;
+    li {
+      font-size: 1.6rem;
+    }
   }
 }
